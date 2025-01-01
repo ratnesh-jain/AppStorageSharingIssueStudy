@@ -11,7 +11,19 @@ https://github.com/user-attachments/assets/5a3c26a4-1340-4319-b177-8f96f1ce83ae
 
 # Solution:
 - The problem was that, it was creating a new instance of the UserDefault for the same suite name every time we refer to it.
-- Since changes the ObjectIdentity of the UserDefault.appGroup object causing incosistance observation.
+ 
+```swift
+extension UserDefaults {
+    public static var appGroup: UserDefaults {
+        guard let defaultGroup = UserDefaults(suiteName: "group.com.ratnesh.AppStorageSharingIssueStudy") else {
+            fatalError()
+        }
+        return defaultGroup
+    }
+}
+```
+
+- This changes the ObjectIdentity of the `UserDefault.appGroup` object, causing inconsistent observation.
 - So changing this to a single instance object, fixes the issue.
 
 ```swift
